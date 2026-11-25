@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arahet CRM</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1f3a5f">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Arahet CRM">
+<script src="sbdb.js"></script>
+<script src="shim.js"></script>
+
+<script>
+// Apply the saved theme before anything is drawn (no flash). Storage may be unavailable in a sandboxed frame.
+(function () {
+  try {
+    var p = JSON.parse(localStorage.getItem('arahet.prefs.v1') || '{}'); var th = p.theme || 'auto';
+    var dark = th === 'dark' || (th === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  } catch (e) { /* default light */ }
+})();
+</script>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo">A</span><span>Arahet CRM</span></div>
+  <input id="q" class="search" type="search" data-i18n-ph="search.ph" autocomplete="off">
+  <button id="btn-new" class="btn primary" data-i18n="btn.new"></button>
+  <button id="btn-import" class="btn ghost" data-i18n="btn.import"></button>
+  <button id="btn-export" class="btn ghost" data-i18n="btn.export"></button>
+  <button id="btn-ai" class="btn ghost aionly" data-i18n="btn.claude"></button>
+  <button id="btn-who" class="btn ghost who"></button>
+  <button id="btn-theme" class="btn ghost iconbtn" data-i18n-title="theme.title"></button>
+  <button id="btn-settings" class="btn ghost" data-i18n="btn.settings"></button>
+  <button id="conn" class="conn connecting"></button>
+</header>
+<div id="banner" class="banner hidden"></div>
+<div id="chips" class="chips"></div>
+<nav class="tabs" id="tabs">
+  <button data-tab="orgs" class="tab active" data-i18n="tab.orgs"></button>
+  <button data-tab="board" class="tab" data-i18n="tab.board"></button>
+  <button data-tab="calls" class="tab"><span data-i18n="tab.calls"></span> <span id="calls-badge" class="badge hidden"></span></button>
+  <button data-tab="mail" class="tab" data-i18n="tab.mail"></button>
+  <button data-tab="rem" class="tab"><span data-i18n="tab.rem"></span> <span id="rem-badge" class="badge hidden"></span></button>
+</nav>
+<main id="view"></main>
+<div id="backdrop" class="backdrop hidden"></div>
+<aside id="drawer" class="drawer hidden" aria-hidden="true"></aside>
+<div id="modal" class="modal hidden"></div>
+<div id="toast" class="toast hidden"></div>
+<input type="file" id="file-in" class="hidden" accept=".xlsx,.json">
+<script src="i18n.js"></script>
+<script src="i18n-ext.js"></script>
+<script src="fields.js"></script>
+<script src="store.js"></script>
+<script src="xlsxio.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
